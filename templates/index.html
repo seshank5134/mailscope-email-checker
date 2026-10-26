@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>MailScope — Email Deliverability Check</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="MailScope home"><span class="brand-mark">M</span><span>MailScope</span></a>
+    <span class="top-note"><span class="live-dot"></span> Privacy-first checker</span>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">EMAIL DELIVERABILITY TOOL</p>
+      <h1>Know what can be<br><span>checked. Know what can't.</span></h1>
+      <p class="hero-copy">Screen a list of email addresses for basic format and mail-routing issues. Results are estimates, not a promise of inbox delivery.</p>
+    </section>
+
+    <section class="workspace" aria-labelledby="checker-title">
+      <div class="panel">
+        <div class="panel-heading">
+          <div><p class="eyebrow">BATCH CHECK</p><h2 id="checker-title">Check email addresses</h2></div>
+          <span class="limit-pill">Up to 20 at a time</span>
+        </div>
+        <label for="emails">Email list</label>
+        <textarea id="emails" rows="7" spellcheck="false" placeholder="alex@example.com&#10;hello@yourdomain.com&#10;not-an-email"></textarea>
+        <div class="field-meta"><span>One address per line, or separate with commas</span><span id="char-count">0 addresses</span></div>
+
+        <details class="advanced">
+          <summary>Advanced check <span class="optional">optional</span></summary>
+          <label class="toggle-row" for="smtp-check">
+            <input type="checkbox" id="smtp-check">
+            <span><strong>Attempt SMTP recipient check</strong><small>May be blocked by hosting providers. No email message is sent.</small></span>
+          </label>
+        </details>
+
+        <button id="check-btn" type="button"><span>Check addresses</span><span aria-hidden="true">→</span></button>
+        <p class="privacy-note"><span aria-hidden="true">◆</span> Addresses are processed for this request and are not saved by this application.</p>
+        <p id="error" class="error" role="alert" hidden></p>
+      </div>
+
+      <div class="results-panel" id="results-panel" aria-live="polite">
+        <div class="empty-state" id="empty-state">
+          <div class="empty-icon">✳</div>
+          <h3>Your results will appear here</h3>
+          <p>Run a check to see each address, its status and the reason behind the result.</p>
+          <div class="legend">
+            <span><i class="dot delivered"></i> Likely to be delivered</span>
+            <span><i class="dot bounce"></i> Likely to bounce</span>
+            <span><i class="dot unknown"></i> Unknown</span>
+          </div>
+        </div>
+        <div id="results" hidden>
+          <div class="results-heading"><div><p class="eyebrow">CHECK SUMMARY</p><h2>Results</h2></div><button class="text-button" id="clear-btn" type="button">Clear results</button></div>
+          <div class="summary-grid">
+            <div class="summary-card"><span>Likely delivered</span><strong id="count-delivered">0</strong></div>
+            <div class="summary-card"><span>Likely bounce</span><strong id="count-bounce">0</strong></div>
+            <div class="summary-card"><span>Unknown</span><strong id="count-unknown">0</strong></div>
+          </div>
+          <div id="result-list" class="result-list"></div>
+          <p class="disclaimer">A server accepting an address is not proof that a message will reach the inbox. Mail providers may hide or defer recipient checks.</p>
+          <button id="export-btn" class="secondary-btn" type="button">Export results as CSV ↓</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="how-it-works">
+      <div><p class="eyebrow">HOW IT WORKS</p><h2>Three outcomes. Clear reasoning.</h2></div>
+      <div class="how-grid">
+        <article><span class="number">01</span><h3>Format check</h3><p>Flags addresses that fail basic syntax checks before any network lookup.</p></article>
+        <article><span class="number">02</span><h3>Mail routing</h3><p>Looks for MX records, with the standard address-record fallback when no MX exists.</p></article>
+        <article><span class="number">03</span><h3>Honest uncertainty</h3><p>Uses “Unknown” when the mailbox cannot be reliably confirmed instead of guessing.</p></article>
+      </div>
+    </section>
+
+    <footer><span>MailScope · Internship selection project</span><span>Built with Flask and DNS lookups</span></footer>
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}" defer></script>
+</body>
+</html>
